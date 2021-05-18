@@ -10,6 +10,8 @@ def semicolon_exception(snippet)
   false
 end
 
+# rubocop: disable Metrics/BlockLength
+
 File.open('code.js', 'r') do |file|
   lines = file.readlines
   tab_no = 0
@@ -40,11 +42,12 @@ File.open('code.js', 'r') do |file|
         else
           puts "Remove extra closing curely braces (}) at line #{number + 1}"
         end
-      else
-        if sections[section_index - 1]&.is_open
-          puts "Line #{number + 1} should be indented with #{sections[section_index - 1].indentaion_no} spaces." unless sections[section_index - 1].correct_indentation?(line)
+      elsif sections[section_index - 1]&.is_open
+        unless sections[section_index - 1].correct_indentation?(line)
+          puts "Line #{number + 1} should be indented with #{sections[section_index - 1].indentaion_no} spaces."
         end
       end
     end
   end
 end
+# rubocop: enable Metrics/BlockLength
