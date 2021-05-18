@@ -29,8 +29,11 @@ File.open('code.js', 'r') do |file|
           section_index += 1
         end
       elsif line[line.length - 2] != ';' && line.gsub(/\s+/, '') != '}'
-        if line.include? ';'
-          puts "Line #{number + 1} must end with a semicolon (;) and no characters should come after the semicolon (;)."
+        if (line.include? ';') && !(line.include? '//')
+          after_semicolon = line[/[^;]+/]
+          unless after_semicolon.include? '//'
+            puts "Line #{number + 1} must end with a semicolon (;) & no characters should come after the semicolon (;)."
+          end
         end
         puts "Missing semicolon (;) at line #{number + 1}." unless line.include? ';'
 
