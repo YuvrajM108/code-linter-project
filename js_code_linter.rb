@@ -17,8 +17,17 @@ File.open('code.js', 'r') do |file|
   tab_no = 0
   sections = []
   section_index = 0
+  in_comment = false
   lines.each_with_index do |line, number|
-    unless line.strip.empty?
+    in_comment = true if (line.include? '/*') && !in_comment
+
+    if in_comment
+      in_comment = false if line.include? '*/'
+    elsif line.include? '*/'
+      puts "Comment closed (*/) without opening at line #{number + 1}."
+    end
+
+    unless line.strip.empty? && !in_comment
       if semicolon_exception(line)
         puts "Forgot open curly braces ({) at line #{number + 1}." if line.gsub(/\s+/,
                                                                                 '')[line.gsub(/\s+/,
@@ -29,11 +38,8 @@ File.open('code.js', 'r') do |file|
           section_index += 1
         end
       elsif line[line.length - 2] != ';' && line.gsub(/\s+/, '') != '}'
-        if (line.include? ';') && !(line.include? '//')
-          after_semicolon = line[/[^;]+/]
-          unless after_semicolon.include? '//'
-            puts "Line #{number + 1} must end with a semicolon (;) & no characters should come after the semicolon (;)."
-          end
+        if (line.include? ';') && !(line[/(?<=;).*/].include? '//')
+          puts "Line #{number + 1} must end with a semicolon (;) & no characters should come after the semicolon (;)."
         end
         puts "Missing semicolon (;) at line #{number + 1}." unless line.include? ';'
 
