@@ -13,8 +13,8 @@ File.open('code.js', 'r') do |file|
   lines.each_with_index do |line, number|
     unless line.strip.empty?
       if semicolon_exception(line)
-        puts "Forgot open curly braces ({) at line #{number + 1}." if line.strip[line.length - 2] != '{'
-      elsif line[line.length - 2] != ';' && line.strip != '}'
+        puts "Forgot open curly braces ({) at line #{number + 1}." if line.gsub(/\s+/, "")[line.gsub(/\s+/, "").length - 1] != '{'
+      elsif line[line.length - 2] != ';' && line.gsub(/\s+/, "") != '}'
         if line.include? ';'
           puts "Line #{number + 1} must end with a semicolon (;) and no characters should come after the semicolon (;)."
         end
