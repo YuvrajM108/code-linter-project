@@ -23,7 +23,7 @@ File.open('code.js', 'r') do |file|
                                                                                               '').length - 1] != '{'
         if line.gsub(/\s+/, '')[line.gsub(/\s+/, '').length - 1] == '{'
           tab_no += 1
-          sections[section_index] = CodeSection.new(line, tab_no, number, true)
+          sections[section_index] = CodeSection.new(line, tab_no, (number + 1), true)
           section_index += 1
         end
       elsif line[line.length - 2] != ';' && line.gsub(/\s+/, '') != '}'
@@ -37,7 +37,11 @@ File.open('code.js', 'r') do |file|
           sections[section_index - 1].is_open = false
           tab_no -= 1
         else
-          puts "Remove extra closing curely braces (}) at line #{number}"
+          puts "Remove extra closing curely braces (}) at line #{number + 1}"
+        end
+      else
+        if sections[section_index - 1]&.is_open
+          puts "Line #{number + 1} should be indented with #{sections[section_index - 1].indentaion_no} spaces." unless sections[section_index - 1].correct_indentation?(line)
         end
       end
     end
