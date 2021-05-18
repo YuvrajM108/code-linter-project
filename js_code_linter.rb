@@ -36,6 +36,7 @@ File.open('code.js', 'r') do |file|
         if sections[section_index - 1]&.is_open
           sections[section_index - 1].is_open = false
           tab_no -= 1
+          section_index -= 1
         else
           puts "Remove extra closing curely braces (}) at line #{number + 1}"
         end
