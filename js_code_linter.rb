@@ -22,12 +22,12 @@ File.open('code.js', 'r') do |file|
     in_comment = true if (line.include? '/*') && !in_comment
 
     if in_comment
-      in_comment = false if line.include? '*/'
+      in_comment = false if lines[number - 1].include? '*/'
     elsif line.include? '*/'
       puts "Comment closed (*/) without opening at line #{number + 1}."
     end
 
-    unless line.strip.empty? && !in_comment
+    unless line.strip.empty? || in_comment
       if semicolon_exception(line)
         puts "Forgot open curly braces ({) at line #{number + 1}." if line.gsub(/\s+/,
                                                                                 '')[line.gsub(/\s+/,

@@ -8,6 +8,11 @@ function add(num1, num2) {
   return sum;
 }
 
+/*
+This is a multi-line comment
+The linter should ignore it and continue checking the code below
+*/
+
 function oddOrEven(val){
   if(val%2 == 0){
     return val + " is even.";
