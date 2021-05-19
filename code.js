@@ -12,6 +12,10 @@ function add(num1, num2) {
 This is a multi-line comment
 The linter should ignore it and continue checking the code below
 */
+/*
+This is another multi-line comment
+The linter should also ignore it
+*/
 
 function oddOrEven(val){
   if(val%2 == 0){
