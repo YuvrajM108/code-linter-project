@@ -29,7 +29,7 @@ File.open('code.js', 'r') do |file|
       errors += 1
     end
 
-    unless line.strip.empty? || in_comment
+    unless line.strip.empty? || in_comment || ((line.include? '//') && !(line.include? ';'))
       if semicolon_exception?(line)
         if line.gsub(/\s+/, '')[line.gsub(/\s+/, '').length - 1] != '{'
           puts "Forgot open curly braces ({) at line #{number + 1}."

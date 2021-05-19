@@ -16,7 +16,7 @@ describe '#semicolon_exception?' do
   it 'returns true if "for" is included in the line of code passed into the method' do
     expect(semicolon_exception?('for(i = 0; i < arr.length; i++) {')).to eql(true)
   end
-  it 'returns false if the line of code passed into the method does not include any of the words in the above test cases' do
+  it 'returns false if the line of code passed into the method does not pass above test cases' do
     expect(semicolon_exception?('return total;')).to eql(false)
   end
 end
