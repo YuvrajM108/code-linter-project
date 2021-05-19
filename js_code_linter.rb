@@ -1,6 +1,6 @@
 require_relative './lib/code_section'
 
-def semicolon_exception(snippet)
+def semicolon_exception?(snippet)
   return true if snippet.include? 'function'
   return true if snippet.include? 'if'
   return true if snippet.include? 'else'
@@ -30,7 +30,7 @@ File.open('code.js', 'r') do |file|
     end
 
     unless line.strip.empty? || in_comment
-      if semicolon_exception(line)
+      if semicolon_exception?(line)
         if line.gsub(/\s+/, '')[line.gsub(/\s+/, '').length - 1] != '{'
           puts "Forgot open curly braces ({) at line #{number + 1}."
           errors += 1
