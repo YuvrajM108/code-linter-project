@@ -13,4 +13,7 @@ describe '#semicolon_exception?' do
   it 'returns true if "while" is included in the line of code passed into the method' do
     expect(semicolon_exception?('while(count < arr.length) {')).to eql(true)
   end
+  it 'returns true if "for" is included in the line of code passed into the method' do
+    expect(semicolon_exception?('for(i = 0; i < arr.length; i++) {')).to eql(true)
+  end
 end
