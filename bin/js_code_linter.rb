@@ -20,10 +20,12 @@ File.open('code.js', 'r') do |file|
     end
     unless line.strip.empty? || in_comment || code_line.single_line_comment?
       if code_line.semicolon_exception?
-        if code_line.open_curly_brackets?
+        if code_line.open_curly_braces?
           tab_no += 1
           sections[section_index] = CodeSection.new(line, tab_no, (number + 1), true)
           section_index += 1
+        elsif code_line.chars_after_opening_curly_braces?
+          puts "Remove characters after opening curly braces ({) at line #{number + 1}."
         else
           puts "Forgot open curly braces ({) at line #{number + 1}."
           errors += 1

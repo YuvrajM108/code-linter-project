@@ -33,8 +33,16 @@ class JSLine
     false
   end
 
-  def open_curly_brackets?()
+  def open_curly_braces?()
     return true if @contents.gsub(/\s+/, '')[@contents.gsub(/\s+/, '').length - 1] == '{'
+
+    false
+  end
+
+  def chars_after_opening_curly_braces?
+    if @contents.include? '{'
+      return true unless @contents[/(?<={).*/].gsub(/\s+/, '').empty?
+    end
 
     false
   end

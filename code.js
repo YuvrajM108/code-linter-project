@@ -6,7 +6,3 @@ The linter should ignore it
 */
 /*This is another comment
 */
-
-if(x%2 == 0) {
-  console.log(x + "is even.");
-}
