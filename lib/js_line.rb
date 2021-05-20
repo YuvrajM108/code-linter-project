@@ -24,11 +24,7 @@ class JSLine
     return true if @contents.include? 'while'
     return true if @contents.include? 'for'
 
-    if @contents.include? '=>'
-      return true if (@contents[/(?<=>).*/].include? '{') || (@contents[/(?<=>).*/].gsub(/\s+/, '').empty?)
-
-      return false unless (@contents[/(?<=>).*/].gsub(/\s+/, '').empty?)
-    end
+    return arrow_function_check if @contents.include? '=>'
 
     false
   end
@@ -40,9 +36,7 @@ class JSLine
   end
 
   def chars_after_opening_curly_braces?
-    if @contents.include? '{'
-      return true unless @contents[/(?<={).*/].gsub(/\s+/, '').empty?
-    end
+    return true if @contents.include?('{') && !@contents[/(?<={).*/].gsub(/\s+/, '').empty?
 
     false
   end
@@ -71,5 +65,11 @@ class JSLine
     return true if (last_line.include? '*/') && !(@contents.include? '/*')
 
     false
+  end
+
+  def arrow_function_check()
+    return true if (@contents[/(?<=>).*/].include? '{') || @contents[/(?<=>).*/].gsub(/\s+/, '').empty?
+
+    return false unless @contents[/(?<=>).*/].gsub(/\s+/, '').empty?
   end
 end
