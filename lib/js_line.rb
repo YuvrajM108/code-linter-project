@@ -16,6 +16,16 @@ class JSLine
     false
   end
 
+  def semicolon_exception?()
+    return true if @contents.include? 'function'
+    return true if @contents.include? 'if'
+    return true if @contents.include? 'else'
+    return true if @contents.include? 'while'
+    return true if @contents.include? 'for'
+  
+    false
+  end
+
   private
 
   def not_starting_new_comment?(last_line)
