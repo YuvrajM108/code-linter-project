@@ -4,10 +4,11 @@ class JSLine
   end
 
   def in_comment?(currently, prev_line)
-    return true unless currently && !(@contents.include? '/*')
+    return true if (@contents.include? '/*') && !(@contents.include? '*/')
     return true if currently && !(prev_line.include? '*/')
-
     return false if currently && not_starting_new_comment?(prev_line)
+    
+    false
   end
 
   def single_line_comment?()
@@ -22,8 +23,14 @@ class JSLine
     return true if @contents.include? 'else'
     return true if @contents.include? 'while'
     return true if @contents.include? 'for'
-  
+
     false
+  end
+
+  def open_curly_brackets?()
+    return true if @contents.gsub(/\s+/, '')[@contents.gsub(/\s+/, '').length - 1] == '{'
+
+    false    
   end
 
   private
