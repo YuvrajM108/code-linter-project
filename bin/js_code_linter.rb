@@ -1,4 +1,4 @@
-require_relative './lib/code_section'
+require_relative '../lib/code_section'
 
 def semicolon_exception?(snippet)
   return true if snippet.include? 'function'
