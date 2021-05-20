@@ -18,11 +18,8 @@ File.open('code.js', 'r') do |file|
       puts "Comment closed (*/) without opening at line #{number + 1}."
       errors += 1
     end
-    # puts "#{number + 1} #{in_comment}"
     unless line.strip.empty? || in_comment || code_line.single_line_comment?
-      # puts code_line.semicolon_exception?
       if code_line.semicolon_exception?
-        # puts code_line.open_curly_brackets?
         if code_line.open_curly_brackets?
           tab_no += 1
           sections[section_index] = CodeSection.new(line, tab_no, (number + 1), true)
@@ -31,8 +28,8 @@ File.open('code.js', 'r') do |file|
           puts "Forgot open curly braces ({) at line #{number + 1}."
           errors += 1
         end
-      elsif line[line.length - 2] != ';' && line.gsub(/\s+/, '') != '}'
-        if (line.include? ';') && !(line[/(?<=;).*/].include? '//')
+      elsif code_line.missing_semicolon_without_close_braces?
+        if code_line.characters_after_semicolon?
           puts "Line #{number + 1} must end with a semicolon (;) & no characters should come after the semicolon (;)."
           errors += 1
         end

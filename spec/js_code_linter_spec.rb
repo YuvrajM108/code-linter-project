@@ -1,4 +1,4 @@
-require_relative '../js_code_linter'
+require_relative '../lib/js_line'
 
 describe '#semicolon_exception?' do
   it 'returns true if "function" is included in the line of code passed into the method' do

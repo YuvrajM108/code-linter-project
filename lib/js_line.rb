@@ -33,6 +33,18 @@ class JSLine
     false
   end
 
+  def missing_semicolon_without_close_braces?()
+    return true if @contents[@contents.length - 2] != ';' && @contents.gsub(/\s+/, '') != '}'
+
+    false
+  end
+
+  def characters_after_semicolon?()
+    return true if (@contents.include? ';') && !(@contents[/(?<=;).*/].include? '//')
+
+    false
+  end
+
   private
 
   def not_starting_new_comment?(last_line)
