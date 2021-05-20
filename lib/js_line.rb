@@ -7,7 +7,7 @@ class JSLine
     return true if (@contents.include? '/*') && !(@contents.include? '*/')
     return true if currently && !(prev_line.include? '*/')
     return false if currently && not_starting_new_comment?(prev_line)
-    
+
     false
   end
 
@@ -30,7 +30,7 @@ class JSLine
   def open_curly_brackets?()
     return true if @contents.gsub(/\s+/, '')[@contents.gsub(/\s+/, '').length - 1] == '{'
 
-    false    
+    false
   end
 
   private
