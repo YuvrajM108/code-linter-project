@@ -3,3 +3,6 @@
 This is a multiline comment
 The linter should ignore it
 */
+/*This is another comment*/
+
+let x = 2;

@@ -21,17 +21,15 @@ File.open('code.js', 'r') do |file|
   section_index = 0
   in_comment = false
   lines.each_with_index do |line, number|
-    in_comment = true if (line.include? '/*') && !in_comment
+    code_line = JSLine.new(line)
+    in_comment = code_line.in_comment?(in_comment, lines[number - 1])
 
-    if in_comment
-      in_comment = false if (lines[number - 1].include? '*/') && !(line.include? '/*')
-    elsif line.include? '*/'
+    if !in_comment && (line.include? '*/')
       puts "Comment closed (*/) without opening at line #{number + 1}."
       errors += 1
     end
 
-    code_line = JSLine.new(line)
-    unless line.strip.empty? || in_comment || code_line.is_single_line_comment?
+    unless line.strip.empty? || in_comment || code_line.single_line_comment?
       if semicolon_exception?(line)
         if line.gsub(/\s+/, '')[line.gsub(/\s+/, '').length - 1] != '{'
           puts "Forgot open curly braces ({) at line #{number + 1}."
