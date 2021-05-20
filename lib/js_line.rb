@@ -45,6 +45,12 @@ class JSLine
     false
   end
 
+  def closed_curly_braces?()
+    return true if @contents.gsub(/\s+/, '') == '}'
+
+    false
+  end
+
   private
 
   def not_starting_new_comment?(last_line)

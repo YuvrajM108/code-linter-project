@@ -37,7 +37,7 @@ File.open('code.js', 'r') do |file|
           puts "Missing semicolon (;) at line #{number + 1}."
           errors += 1
         end
-      elsif line.gsub(/\s+/, '') == '}'
+      elsif code_line.closed_curly_braces?
         if sections[section_index - 1]&.is_open
           sections[section_index - 1].is_open = false
           tab_no -= 1
