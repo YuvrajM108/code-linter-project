@@ -24,6 +24,12 @@ class JSLine
     return true if @contents.include? 'while'
     return true if @contents.include? 'for'
 
+    if @contents.include? '=>'
+      return true if (@contents[/(?<=>).*/].include? '{') || (@contents[/(?<=>).*/].gsub(/\s+/, '').empty?)
+
+      return false unless (@contents[/(?<=>).*/].gsub(/\s+/, '').empty?)
+    end
+
     false
   end
 
