@@ -1,5 +1,6 @@
 require_relative '../lib/code_section'
 require_relative '../lib/js_line'
+require_relative '../lib/error_message'
 
 # rubocop: disable Metrics/BlockLength
 
@@ -31,33 +32,15 @@ File.open('code.js', 'r') do |file|
           puts "Forgot to open curly braces ({) at line #{number + 1}."
           errors += 1
         end
-      elsif code_line.case_or_default?
-        unless code_line.ends_with_colon?
-          puts "Missing colon (:) at line #{number + 1}"
+      else
+        message = ErrorMessage.new(line, sections[section_index - 1])
+        output = message.generate_message(number + 1)
+        if !output.empty?
+          puts output
           errors += 1
-        end
-      elsif code_line.missing_semicolon_without_close_braces?
-        if code_line.characters_after_semicolon?
-          puts "Line #{number + 1} must end with a semicolon (;) & no characters should come after the semicolon (;)."
-          errors += 1
-        end
-        unless line.include? ';'
-          puts "Missing semicolon (;) at line #{number + 1}."
-          errors += 1
-        end
-      elsif code_line.closed_curly_braces?
-        if sections[section_index - 1]&.is_open
-          sections[section_index - 1].is_open = false
+        elsif output.empty? && !sections[section_index - 1]&.is_open
           tab_no -= 1
           section_index -= 1
-        else
-          puts "Remove extra closing curely braces (}) at line #{number + 1}"
-          errors += 1
-        end
-      elsif sections[section_index - 1]&.is_open
-        unless sections[section_index - 1].correct_indentation?(line)
-          puts "Line #{number + 1} should be indented with #{sections[section_index - 1].indentation_no} spaces."
-          errors += 1
         end
       end
     end
