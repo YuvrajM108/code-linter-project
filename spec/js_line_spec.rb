@@ -69,4 +69,41 @@ describe JSLine do
       expect(line.semicolon_exception?).to eql(false)
     end
   end
+
+  describe '#open_curly_braces?' do
+    it 'returns true if line of code includes opening curly braces ({)' do
+      line = JSLine.new('function sum(x, y) {')
+      expect(line.open_curly_braces?).to eql(true)
+    end
+    it 'returns false if line of code does not include opening curly braces ({)' do
+      line = JSLine.new('function sum(x, y)')
+      expect(line.open_curly_braces?).to eql(false)
+    end
+  end
+
+  describe '#chars_after_opening_curly_braces?' do
+    it 'returns true if any characters are found after opening curly braces ({)' do
+      line = JSLine.new('function sum(x, y) {;')
+      expect(line.chars_after_opening_curly_braces?).to eql(true)
+    end
+    it 'returns false if no characters are found after opening curly braces ({)' do
+      line = JSLine.new('function sum(x, y) {')
+      expect(line.chars_after_opening_curly_braces?).to eql(false)
+    end
+  end
+
+  describe '#case_or_default?' do
+    it 'returns true if line of code includes "case"' do
+      line = JSLine.new('case 0:')
+      expect(line.case_or_default?).to eql(true)
+    end
+    it 'returns true if line of code includes "default"' do
+      line = JSLine.new('default:')
+      expect(line.case_or_default?).to eql(true)
+    end
+    it 'returns false if line of code does not include "case" or "switch"' do
+      line = JSLine.new('break;')
+      expect(line.case_or_default?).to eql(false)
+    end
+  end
 end
