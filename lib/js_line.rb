@@ -33,7 +33,7 @@ class JSLine
   # rubocop: enable Metrics/CyclomaticComplexity
 
   def open_curly_braces?()
-    return true if @contents.include? '{'
+    return true if (@contents.include? '{') && @contents[/(?<={).*/].gsub(/\s+/, '').empty?
 
     false
   end
