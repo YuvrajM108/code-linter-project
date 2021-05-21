@@ -17,6 +17,7 @@ class JSLine
     false
   end
 
+  # rubocop: disable Metrics/CyclomaticComplexity
   def semicolon_exception?()
     return true if @contents.include? 'function'
     return true if @contents.include? 'if'
@@ -29,6 +30,7 @@ class JSLine
 
     false
   end
+  # rubocop: enable Metrics/CyclomaticComplexity
 
   def open_curly_braces?()
     return true if @contents.gsub(/\s+/, '')[@contents.gsub(/\s+/, '').length - 1] == '{'
@@ -43,7 +45,7 @@ class JSLine
   end
 
   def case_or_default?
-    return true if (@contents.include?('case')) || (@contents.include?('default'))
+    return true if @contents.include?('case') || @contents.include?('default')
 
     false
   end
@@ -61,7 +63,7 @@ class JSLine
   end
 
   def characters_after_semicolon?()
-    return true if (@contents.include? ';') && !(@contents[/(?<=;).*/].include? '//')
+    return true if (@contents.include? ';') && not_single_line_comment?(@contents[/(?<=;).*/])
 
     false
   end
@@ -84,5 +86,11 @@ class JSLine
     return true if (@contents[/(?<=>).*/].include? '{') || @contents[/(?<=>).*/].gsub(/\s+/, '').empty?
 
     return false unless @contents[/(?<=>).*/].gsub(/\s+/, '').empty?
+  end
+
+  def not_single_line_comment?(chars)
+    return true unless chars.empty? || (chars.include? '//')
+
+    false
   end
 end
