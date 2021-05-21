@@ -22,7 +22,7 @@ File.open('code.js', 'r') do |file|
       if code_line.semicolon_exception?
         if code_line.open_curly_braces?
           tab_no += 1
-          sections[section_index] = CodeSection.new(line, tab_no, (number + 1), true)
+          sections[section_index] = CodeSection.new(tab_no, (number + 1), true)
           section_index += 1
         elsif code_line.chars_after_opening_curly_braces?
           puts "Remove characters after opening curly braces ({) at line #{number + 1}."
@@ -56,7 +56,7 @@ File.open('code.js', 'r') do |file|
         end
       elsif sections[section_index - 1]&.is_open
         unless sections[section_index - 1].correct_indentation?(line)
-          puts "Line #{number + 1} should be indented with #{sections[section_index - 1].indentaion_no} spaces."
+          puts "Line #{number + 1} should be indented with #{sections[section_index - 1].indentation_no} spaces."
           errors += 1
         end
       end
