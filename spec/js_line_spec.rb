@@ -117,4 +117,19 @@ describe JSLine do
       expect(line.ends_with_colon?).to eql(false)
     end
   end
+
+  describe '#missing_semicolon_without_close_braces?' do
+    it 'returns true if semicolon (;) is not at end of line & closing curly braces (}) is not in line' do
+      line = JSLine.new('return x + y')
+      expect(line.missing_semicolon_without_close_braces?).to eql(true)
+    end
+    it 'returns false if semicolon (;) is at end of line' do
+      line = JSLine.new('return x + y; ')
+      expect(line.missing_semicolon_without_close_braces?).to eql(false)
+    end
+    it 'returns false if closing curly braces are found in line' do
+      line = JSLine.new('}')
+      expect(line.missing_semicolon_without_close_braces?).to eql(false)
+    end
+  end
 end
