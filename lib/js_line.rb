@@ -23,6 +23,7 @@ class JSLine
     return true if @contents.include? 'else'
     return true if @contents.include? 'while'
     return true if @contents.include? 'for'
+    return true if @contents.include? 'switch'
 
     return arrow_function_check if @contents.include? '=>'
 
@@ -37,6 +38,18 @@ class JSLine
 
   def chars_after_opening_curly_braces?
     return true if @contents.include?('{') && !@contents[/(?<={).*/].gsub(/\s+/, '').empty?
+
+    false
+  end
+
+  def case_or_default?
+    return true if (@contents.include?('case')) || (@contents.include?('default'))
+
+    false
+  end
+
+  def ends_with_colon?
+    return true if @contents.gsub(/\s+/, '')[@contents.gsub(/\s+/, '').length - 1] == ':'
 
     false
   end

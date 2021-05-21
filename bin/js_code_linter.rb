@@ -26,8 +26,14 @@ File.open('code.js', 'r') do |file|
           section_index += 1
         elsif code_line.chars_after_opening_curly_braces?
           puts "Remove characters after opening curly braces ({) at line #{number + 1}."
+          errors += 1
         else
-          puts "Forgot open curly braces ({) at line #{number + 1}."
+          puts "Forgot to open curly braces ({) at line #{number + 1}."
+          errors += 1
+        end
+      elsif code_line.case_or_default?
+        unless code_line.ends_with_colon?
+          puts "Missing colon (:) at line #{number + 1}"
           errors += 1
         end
       elsif code_line.missing_semicolon_without_close_braces?
