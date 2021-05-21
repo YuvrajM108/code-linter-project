@@ -33,13 +33,19 @@ class JSLine
   # rubocop: enable Metrics/CyclomaticComplexity
 
   def open_curly_braces?()
-    return true if @contents.gsub(/\s+/, '')[@contents.gsub(/\s+/, '').length - 1] == '{'
+    return true if @contents.include? '{'
 
     false
   end
 
   def chars_after_opening_curly_braces?
-    return true if @contents.include?('{') && !@contents[/(?<={).*/].gsub(/\s+/, '').empty?
+    return true if @contents.include?('{') && other_than_close_braces?(@contents[/(?<={).*/])
+
+    false
+  end
+
+  def same_line_close_curly_braces?
+    return true if (@contents.include?'{') && (@contents[/(?<={).*/].include? '}')
 
     false
   end
@@ -90,6 +96,12 @@ class JSLine
 
   def not_single_line_comment?(chars)
     return true unless chars.empty? || (chars.include? '//')
+
+    false
+  end
+
+  def other_than_close_braces?(chars)
+    return true unless chars.empty? || (chars.include? '}')
 
     false
   end
