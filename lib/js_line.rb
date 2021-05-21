@@ -45,7 +45,7 @@ class JSLine
   end
 
   def same_line_close_curly_braces?
-    return true if (@contents.include?'{') && (@contents[/(?<={).*/].include? '}')
+    return true if (@contents.include? '{') && (@contents[/(?<={).*/].include? '}')
 
     false
   end

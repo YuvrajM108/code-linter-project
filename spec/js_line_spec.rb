@@ -82,13 +82,28 @@ describe JSLine do
   end
 
   describe '#chars_after_opening_curly_braces?' do
-    it 'returns true if any characters are found after opening curly braces ({)' do
+    it 'returns true if any characters (other than }) are found after opening curly braces ({)' do
       line = JSLine.new('function sum(x, y) {;')
       expect(line.chars_after_opening_curly_braces?).to eql(true)
+    end
+    it 'returns false if closing curly braces (}) are found after opening curly braces ({)' do
+      line = JSLine.new('let func = () => {};')
+      expect(line.chars_after_opening_curly_braces?).to eql(false)
     end
     it 'returns false if no characters are found after opening curly braces ({)' do
       line = JSLine.new('function sum(x, y) {')
       expect(line.chars_after_opening_curly_braces?).to eql(false)
+    end
+  end
+
+  describe '#same_line_close_curly_braces?' do
+    it 'returns true if curly braces open ({) & close (}) on the same line' do
+      line = JSLine.new('let func = () => {};')
+      expect(line.same_line_close_curly_braces?).to eql(true)
+    end
+    it 'returns false if curly braces do not open ({) & close (}) on the same line' do
+      line = JSLine.new('let func = () => {')
+      expect(line.same_line_close_curly_braces?).to eql(false)
     end
   end
 
