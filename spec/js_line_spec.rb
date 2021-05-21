@@ -106,4 +106,15 @@ describe JSLine do
       expect(line.case_or_default?).to eql(false)
     end
   end
+
+  describe '#ends_with_colon?' do
+    it 'returns true if line ends with colon (:)' do
+      line = JSLine.new('case 0:')
+      expect(line.ends_with_colon?).to eql(true)
+    end
+    it 'returns false if line does not end with colon (:)' do
+      line = JSLine.new('case 0')
+      expect(line.ends_with_colon?).to eql(false)
+    end
+  end
 end
