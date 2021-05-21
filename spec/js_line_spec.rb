@@ -45,6 +45,10 @@ describe JSLine do
       line = JSLine.new('let isEven = x => {')
       expect(line.semicolon_exception?).to eql(true)
     end
+    it 'returns true if "switch" is included in the line of code' do
+      line = JSLine.new('switch(expr) {')
+      expect(line.semicolon_exception?).to eql(true)
+    end
     it 'returns false if "=>" is followed by one line of code' do
       line = JSLine.new('let addOne = x => x + 1;')
       expect(line.semicolon_exception?).to eql(false)
