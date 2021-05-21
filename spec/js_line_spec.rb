@@ -20,6 +20,17 @@ describe JSLine do
     end
   end
 
+  describe '#single_line_comment?' do
+    it 'returs true if "//" is included in line of code without a semicolon (;)' do
+      line = JSLine.new('// This is a single line comment')
+      expect(line.single_line_comment?).to eql(true)
+    end
+    it 'returns false if a semicolon (;) is included in the line of code' do
+      line = JSLine.new('let x = 4;  // Variable declaration')
+      expect(line.single_line_comment?).to eql(false)
+    end
+  end
+
   describe '#semicolon_exception?' do
     it 'returns true if "function" is included in the line of code' do
       line = JSLine.new('function sum(x, y) {')
