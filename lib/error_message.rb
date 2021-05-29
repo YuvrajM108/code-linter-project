@@ -24,7 +24,7 @@ class ErrorMessage
     elsif code_line.closed_curly_braces?
       if @prev_section&.is_open
         @prev_section.is_open = false
-        return ''
+        return 'Section closed'
       end
       return "Remove extra closing curely braces (}) at line #{line_no}" unless @prev_section&.is_open
     elsif @prev_section&.is_open
