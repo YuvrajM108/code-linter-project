@@ -38,7 +38,7 @@ describe ErrorMessage do
     it 'returns a blank message if the section is open & the line contains a closing curly brace' do
       c_section = CodeSection.new(1, 5, true)
       message = ErrorMessage.new('}', c_section)
-      expect(message.generate_message(5)).to eql('')
+      expect(message.generate_message(5)).to eql('Section closed')
     end
     it 'returns a message indicating an extra closing curly brace if the section is already closed' do
       c_section = CodeSection.new(1, 6, false)

@@ -35,10 +35,10 @@ File.open('code.js', 'r') do |file|
       else
         message = ErrorMessage.new(line, sections[section_index - 1])
         output = message.generate_message(number + 1)
-        if !output.empty?
+        if !output.empty? && !output.eql?('Section closed')
           puts output
           errors += 1
-        elsif output.empty? && !sections[section_index - 1]&.is_open
+        elsif !output.empty? && !sections[section_index - 1]&.is_open && output.eql?('Section closed')
           tab_no -= 1
           section_index -= 1
         end
